@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { personalData } from '../data/content';
 import {
   Sparkles,
@@ -28,6 +28,26 @@ export default function About() {
     { type: 'output', text: 'Status: Learning to build smart things that play back. Open to internships & collabs!' },
   ]);
   const [terminalInput, setTerminalInput] = useState('');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  // Close lightbox on Escape key
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Escape') setLightboxOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (lightboxOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [lightboxOpen, handleKeyDown]);
 
   // Interactive Brain Sliders State
   const [coffeeLevel, setCoffeeLevel] = useState(90);
@@ -120,11 +140,89 @@ export default function About() {
           <span>// ABOUT RAIZA NARGEES</span>
         </div>
 
-        {/* Big Chunky Punchline */}
-        <div className="max-w-5xl mb-12">
-          <h2 className="retro-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.02] tracking-tight text-[#141516]">
-            FIRST-YEAR <span className="text-[#D0003A]">CSE (AI)</span> STUDENT AT <span className="text-[#007A3D]">THEJUS</span>, BUILDING SMART THINGS THAT <span className="underline decoration-[#F0E85A] decoration-wavy decoration-4">PLAY BACK</span>.
-          </h2>
+        {/* Big Chunky Punchline + Profile Photo side by side */}
+        <div className="flex items-start gap-8 mb-12">
+          <div className="flex-1">
+            <h2 className="retro-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.02] tracking-tight text-[#141516]">
+              FIRST-YEAR <span className="text-[#D0003A]">CSE (AI)</span> STUDENT AT <span className="text-[#007A3D]">THEJUS</span>, BUILDING SMART THINGS THAT <span className="underline decoration-[#F0E85A] decoration-wavy decoration-4">PLAY BACK</span>.
+            </h2>
+          </div>
+
+          {/* ── MODERN PROFILE CARD WITH OVERLAYS ── */}
+          <div className="hidden lg:block shrink-0 relative" style={{ width: '230px' }}>
+
+            {/* Dot-grid decorative background */}
+            <div
+              className="absolute inset-0 rounded-3xl opacity-20 pointer-events-none"
+              style={{
+                backgroundImage: 'radial-gradient(circle, #141516 1.5px, transparent 1.5px)',
+                backgroundSize: '12px 12px',
+                transform: 'translate(10px, 10px)',
+              }}
+            />
+
+            {/* Hard shadow block (neo-brutalist) */}
+            <div className="absolute inset-0 rounded-2xl bg-[#141516] translate-x-2 translate-y-2" />
+
+            {/* Main photo container */}
+            <div
+              onClick={() => setLightboxOpen(true)}
+              className="relative rounded-2xl border-3 border-[#141516] overflow-hidden cursor-zoom-in group"
+              style={{ border: '3px solid #141516', height: '280px' }}
+            >
+              <img
+                src="/raiza-profile.jpg"
+                alt="Raiza Nargees"
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+              />
+
+              {/* Bottom gradient overlay with name */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#141516]/90 via-[#141516]/40 to-transparent pt-10 pb-3 px-3">
+                <div className="retro-mono text-[11px] font-black text-[#F0E85A] tracking-widest">RAIZA NARGEES</div>
+                <div className="retro-mono text-[9px] text-white/70 tracking-wider">B.TECH CSE (AI) · '29</div>
+              </div>
+
+              {/* Click-to-zoom hint */}
+              <div className="absolute inset-0 bg-[#141516]/0 group-hover:bg-[#141516]/10 flex items-center justify-center transition-all duration-300">
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity retro-mono text-[11px] font-black text-white bg-[#141516]/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20">
+                  🔍 VIEW FULL
+                </span>
+              </div>
+            </div>
+
+            {/* ── FLOATING BADGES ── */}
+
+            {/* LIVE badge — top left */}
+            <div className="absolute -top-3 -left-3 flex items-center gap-1.5 bg-[#D0003A] text-white retro-mono text-[9px] font-black px-2.5 py-1 rounded-full border-2 border-[#141516] shadow-brutal z-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+              OPEN TO WORK
+            </div>
+
+            {/* Kerala badge — top right */}
+            <div className="absolute -top-3 -right-3 bg-[#007A3D] text-white retro-mono text-[9px] font-black px-2.5 py-1 rounded-full border-2 border-[#141516] shadow-brutal z-10">
+              🌴 KERALA
+            </div>
+
+            {/* Python chip — left side */}
+            <div className="absolute top-1/3 -left-10 bg-[#F0E85A] text-[#141516] retro-mono text-[9px] font-black px-2 py-1 rounded-lg border-2 border-[#141516] shadow-brutal z-10 -rotate-6">
+              🐍 PYTHON
+            </div>
+
+            {/* React chip — right side */}
+            <div className="absolute top-1/2 -right-9 bg-white text-[#141516] retro-mono text-[9px] font-black px-2 py-1 rounded-lg border-2 border-[#141516] shadow-brutal z-10 rotate-6">
+              ⚛️ REACT
+            </div>
+
+            {/* AI chip — bottom left */}
+            <div className="absolute -bottom-3 -left-4 bg-[#141516] text-[#F0E85A] retro-mono text-[9px] font-black px-2.5 py-1 rounded-full border-2 border-[#F0E85A] shadow-brutal z-10 -rotate-2">
+              🧠 AI · ML
+            </div>
+
+            {/* Class year chip — bottom right */}
+            <div className="absolute -bottom-3 -right-4 bg-[#F0E85A] text-[#141516] retro-mono text-[9px] font-black px-2.5 py-1 rounded-full border-2 border-[#141516] shadow-brutal z-10 rotate-2">
+              CLASS OF '29
+            </div>
+          </div>
         </div>
 
         {/* Fun Interactive Stickers / Badges Row */}
@@ -442,6 +540,36 @@ export default function About() {
         </div>
 
       </div>
+
+      {/* Lightbox Modal */}
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <div
+            className="relative max-w-sm w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setLightboxOpen(false)}
+              className="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-[#D0003A] border-2 border-[#141516] text-white font-black text-lg flex items-center justify-center shadow-brutal hover:scale-110 transition-transform z-10"
+            >
+              ✕
+            </button>
+            <div className="rounded-2xl border-4 border-[#141516] overflow-hidden shadow-brutal">
+              <img
+                src="/raiza-profile.jpg"
+                alt="Raiza Nargees"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+            <div className="mt-3 text-center retro-mono text-xs font-black text-white bg-[#141516] px-4 py-2 rounded-full border-2 border-[#F0E85A] inline-block mx-auto w-fit">
+              RAIZA NARGEES — CSE (AI) '29 🎓
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
