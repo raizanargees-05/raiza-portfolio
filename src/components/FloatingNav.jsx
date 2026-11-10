@@ -12,7 +12,7 @@ export default function FloatingNav() {
       const scrollY = window.scrollY;
       setScrolled(scrollY > 100);
 
-      const sections = ['hero', 'about', 'projects', 'skills', 'education', 'contact'];
+      const sections = ['hero', 'about', 'skills', 'education', 'contact'];
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el) {
@@ -75,19 +75,6 @@ export default function FloatingNav() {
             }`}
           >
             Info
-          </a>
-
-          <a
-            href="#projects"
-            onClick={(e) => scrollToSection(e, 'projects')}
-            data-cursor="pointer"
-            className={`px-3 py-1.5 rounded-full retro-mono text-[11px] sm:text-xs font-bold transition-all duration-200 ${
-              activeSection === 'projects'
-                ? 'bg-white/20 text-[#F0E85A]'
-                : 'text-white/70 hover:text-white hover:bg-white/10'
-            }`}
-          >
-            Projects
           </a>
 
           <a
