@@ -141,7 +141,7 @@ export default function About() {
         </div>
 
         {/* Big Chunky Punchline + Profile Photo side by side */}
-        <div className="flex items-start gap-8 mb-12">
+        <div className="flex flex-col lg:flex-row items-start gap-8 mb-12">
           <div className="flex-1">
             <h2 className="retro-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.02] tracking-tight text-[#141516]">
               FIRST-YEAR <span className="text-[#D0003A]">CSE (AI)</span> STUDENT AT <span className="text-[#007A3D]">THEJUS</span>, BUILDING SMART THINGS THAT <span className="underline decoration-[#F0E85A] decoration-wavy decoration-4">PLAY BACK</span>.
@@ -149,7 +149,7 @@ export default function About() {
           </div>
 
           {/* ── MODERN PROFILE CARD WITH OVERLAYS ── */}
-          <div className="hidden lg:block shrink-0 relative" style={{ width: '230px' }}>
+          <div className="block shrink-0 relative mx-auto lg:mx-0" style={{ width: '200px' }}>
 
             {/* Dot-grid decorative background */}
             <div
@@ -167,8 +167,8 @@ export default function About() {
             {/* Main photo container */}
             <div
               onClick={() => setLightboxOpen(true)}
-              className="relative rounded-2xl border-3 border-[#141516] overflow-hidden cursor-zoom-in group"
-              style={{ border: '3px solid #141516', height: '280px' }}
+              className="relative rounded-2xl overflow-hidden cursor-zoom-in group"
+              style={{ border: '3px solid #141516', height: '260px' }}
             >
               <img
                 src="/raiza-profile.jpg"
